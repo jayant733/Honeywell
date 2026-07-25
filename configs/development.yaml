@@ -1,0 +1,10 @@
+environment: development
+logging:
+  level: INFO
+  json: true
+runtime:
+  data_directory: data/runtime
+  timezone: Asia/Calcutta
+control:
+  decision_interval_minutes: 30
+  simulation_timestep_minutes: 15

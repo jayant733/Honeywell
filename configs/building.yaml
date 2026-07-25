@@ -1,0 +1,6 @@
+building:
+  id: sentinel-reference-office
+  display_name: Sentinel Twin Reference Office
+  model_path: models/energyplus/building.epJSON
+  weather_path: models/energyplus/weather.epw
+zones: []

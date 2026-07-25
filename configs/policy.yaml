@@ -1,0 +1,5 @@
+policy:
+  version: 0.1.0
+  mode: shadow
+  safe_default_action: HOLD
+  operator_override_requires_audit_reason: true
