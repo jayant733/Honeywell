@@ -2,8 +2,11 @@
 # The AI / operators can never violate these rules.
 
 temperature_limits:
+  min_heating_setpoint: 16.0
   min_cooling_setpoint: 20.0
   max_heating_setpoint: 24.0
+  max_cooling_setpoint: 30.0
 
 # Rate limits (Celsius per hour)
 max_change_per_hour: 2.0
+minimum_dwell_minutes: 30.0

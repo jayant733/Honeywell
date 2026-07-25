@@ -11,9 +11,9 @@ from packages.ai.tools import ToolRegistry
 
 def test_tool_registry():
     registry = ToolRegistry()
-    registry.register("get_weather", lambda: {"temp": 25.0})
+    registry.register("get_forecast", lambda: {"temp": 25.0})
 
-    res = registry.execute("get_weather", {})
+    res = registry.execute("get_forecast", {})
     assert json.loads(res) == {"temp": 25.0}
 
     # Missing tool
@@ -23,18 +23,18 @@ def test_tool_registry():
 
 def test_tool_router():
     registry = ToolRegistry()
-    registry.register("read_sensor", lambda sensor: f"{sensor} is OK")
+    registry.register("get_building_state", lambda sensor: f"{sensor} is OK")
     router = ToolRouter(registry)
 
     mock_call = MagicMock()
     mock_call.id = "call_123"
-    mock_call.function.name = "read_sensor"
+    mock_call.function.name = "get_building_state"
     mock_call.function.arguments = '{"sensor": "temp_1"}'
 
     results = router.handle_tool_calls([mock_call])
     assert len(results) == 1
     assert results[0]["role"] == "tool"
-    assert results[0]["name"] == "read_sensor"
+    assert results[0]["name"] == "get_building_state"
     assert "temp_1 is OK" in results[0]["content"]
 
 

@@ -1,6 +1,6 @@
 """Unit tests for the state engine (M4)."""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
@@ -19,6 +19,8 @@ def test_quality_flagger():
     # Missing reading
     assert flagger.evaluate("zone_1", now, None) == "MISSING"
     assert flagger.evaluate("zone_1", now, float("nan")) == "MISSING"
+    assert flagger.evaluate("zone_2", now, 22.0) == "VALID"
+    assert flagger.evaluate("zone_2", now + timedelta(minutes=16), 22.0) == "STALE"
 
 
 def test_state_builder():

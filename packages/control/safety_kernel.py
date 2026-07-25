@@ -1,5 +1,6 @@
 """Safety Kernel ensuring no unsafe commands reach the adapter."""
 
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +27,9 @@ class SafetyKernel:
     def __init__(self, config_path: Path):
         self.config = self._load_config(config_path)
         self.checker = LimitChecker(self.config)
+        self.max_change_per_hour = float(self.config.get("max_change_per_hour", 2.0))
+        self.minimum_dwell = timedelta(minutes=float(self.config.get("minimum_dwell_minutes", 30.0)))
+        self.last_actions: dict[str, tuple[float, datetime]] = {}
 
     def _load_config(self, path: Path) -> dict[str, Any]:
         if not path.is_file():
@@ -57,6 +61,15 @@ class SafetyKernel:
             elif action.actuator_id.endswith("_heating_setpoint"):
                 new_action.value = self.checker.check_heating(action.value)
 
+            previous = self.last_actions.get(action.actuator_id)
+            if previous is not None:
+                old_value, old_time = previous
+                elapsed_hours = max((state.timestamp - old_time).total_seconds() / 3600, 0.001)
+                if state.timestamp - old_time < self.minimum_dwell:
+                    return ValidationResultV1(False, "Rejected: minimum dwell time not met.", [])
+                if abs(new_action.value - old_value) / elapsed_hours > self.max_change_per_hour:
+                    return ValidationResultV1(False, "Rejected: rate limit exceeded.", [])
+
             clipped.append(new_action)
 
         # 3. Overlap check (requires looking at pairs of actions for a zone)
@@ -84,4 +97,6 @@ class SafetyKernel:
         is_clipped = any(c.value != o.value for c, o in zip(clipped, decision.actions))
         msg = "Safe. " + ("Actions were clipped to limits." if is_clipped else "")
 
+        for action in clipped:
+            self.last_actions[action.actuator_id] = (action.value, state.timestamp)
         return ValidationResultV1(safe=True, message=msg, clipped_actions=clipped)

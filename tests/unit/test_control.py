@@ -65,3 +65,19 @@ def test_safety_kernel_rejection():
 
     assert clipped_heat.value == 24.0  # max heating is 24.0
     assert clipped_cool.value == 28.0  # untouched
+
+
+def test_safety_kernel_enforces_dwell_and_rate_limits(tmp_path: Path):
+    config = tmp_path / "limits.yaml"
+    config.write_text(
+        "temperature_limits:\n  min_heating_setpoint: 16\n  max_heating_setpoint: 24\n"
+        "  min_cooling_setpoint: 20\n  max_cooling_setpoint: 30\n"
+        "max_change_per_hour: 2\nminimum_dwell_minutes: 30\n",
+        encoding="utf-8",
+    )
+    kernel = SafetyKernel(config)
+    state = BuildingStateV1(timestamp=datetime(2026, 1, 1, 10), zones=[])
+    first = DecisionV1(source="AI", rationale="x", actions=[ActionCommandV1("z_heating_setpoint", 21)])
+    assert kernel.evaluate(first, state).safe
+    second = DecisionV1(source="AI", rationale="x", actions=[ActionCommandV1("z_heating_setpoint", 22)])
+    assert not kernel.evaluate(second, state).safe

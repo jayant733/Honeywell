@@ -13,8 +13,8 @@ class MemoryRetriever:
 
     def find_similar_episodes(self, current_state: Any) -> list[dict[str, Any]]:
         """
-        Stub for retrieving similar past episodes based on state similarity.
-        For the hackathon, we might just return the last N decisions or an empty list.
+        Return bounded, auditable prior decisions. Similarity scoring is deliberately
+        deferred until a validated feature store exists.
         """
-        # A real implementation would use vector embeddings or query bounds.
-        return []
+        del current_state
+        return self.repo.recent_events("DECISION", limit=5)

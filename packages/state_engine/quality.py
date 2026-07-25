@@ -16,10 +16,10 @@ class QualityFlagger:
         if val is None or (isinstance(val, float) and val != val):
             return "MISSING"
 
-        # Update last seen
-        self.last_seen_times[zone_id] = current_time
+        previous = self.last_seen_times.get(zone_id)
+        if previous is not None and current_time - previous > self.stale_threshold:
+            self.last_seen_times[zone_id] = current_time
+            return "STALE"
 
-        # We don't implement full stale tracking via old timestamps here unless we
-        # receive explicit timestamps per reading. Assuming the Simulation Adapter
-        # gives us fresh data on each tick.
+        self.last_seen_times[zone_id] = current_time
         return "VALID"

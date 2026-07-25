@@ -52,3 +52,13 @@ class EventRepository:
             ).fetchall()
 
         return [dict(row) for row in rows]
+
+    def recent_events(self, event_type: str, limit: int = 5) -> list[dict[str, Any]]:
+        """Return bounded recent history for episodic retrieval."""
+        with contextlib.closing(sqlite3.connect(self.db_path)) as conn:
+            conn.row_factory = sqlite3.Row
+            rows = conn.execute(
+                "SELECT * FROM events WHERE event_type = ? ORDER BY timestamp DESC LIMIT ?",
+                (event_type, limit),
+            ).fetchall()
+        return [dict(row) for row in rows]

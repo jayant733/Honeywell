@@ -9,10 +9,14 @@ from pydantic import BaseModel
 class ToolRegistry:
     """Holds references to actual python functions that the LLM can call."""
 
+    READ_ONLY_TOOLS = {"get_building_state", "get_forecast", "get_kpis", "lookup_policy"}
+
     def __init__(self):
         self._tools: dict[str, Callable[..., object]] = {}
 
     def register(self, name: str, func: Callable[..., object]) -> None:
+        if name not in self.READ_ONLY_TOOLS:
+            raise ValueError(f"Tool {name} is not an approved read-only evidence tool.")
         self._tools[name] = func
 
     def execute(self, name: str, args: dict[str, object]) -> str:
