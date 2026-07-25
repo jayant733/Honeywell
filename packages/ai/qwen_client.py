@@ -58,7 +58,10 @@ class QwenClient:
                 temperature=self.config.get("temperature", 0.1),
                 response_format=DecisionProposalV1,
             )
-            return response.choices[0].message.parsed
+            parsed = response.choices[0].message.parsed
+            if parsed is None:
+                raise ValueError("Qwen response did not contain a structured proposal.")
+            return parsed
         except Exception as e:
             # Fail closed: if the model times out, crashes, or gives bad JSON,
             # we return a safe NO-OP decision.

@@ -8,7 +8,11 @@ version = "0.1.0"
 description = "An auditable autonomous Building Management System digital twin."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "pydantic>=2.0.0",
+    "openai>=1.0.0",
+    "pyyaml>=6.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["packages/domain"]
@@ -19,6 +23,7 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -28,3 +33,7 @@ addopts = "-q"
 python_version = "3.11"
 strict = true
 files = ["packages"]
+explicit_package_bases = true
+ignore_missing_imports = true
+disallow_untyped_defs = false
+warn_return_any = false

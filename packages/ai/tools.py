@@ -10,12 +10,12 @@ class ToolRegistry:
     """Holds references to actual python functions that the LLM can call."""
 
     def __init__(self):
-        self._tools: dict[str, Callable] = {}
+        self._tools: dict[str, Callable[..., object]] = {}
 
-    def register(self, name: str, func: Callable):
+    def register(self, name: str, func: Callable[..., object]) -> None:
         self._tools[name] = func
 
-    def execute(self, name: str, args: dict) -> str:
+    def execute(self, name: str, args: dict[str, object]) -> str:
         """Executes a registered tool and returns a JSON string result."""
         if name not in self._tools:
             return json.dumps({"error": f"Tool {name} is not registered or not permitted."})
@@ -34,7 +34,7 @@ class ToolRegistry:
 # fetched before the prompt, or requested dynamically.
 
 
-def get_tool_schemas() -> list[dict]:
+def get_tool_schemas() -> list[dict[str, object]]:
     return [
         {
             "type": "function",

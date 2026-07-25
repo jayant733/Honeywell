@@ -6,13 +6,12 @@ from typing import Any
 
 # Attempt to load pyenergyplus, add default path if not found
 try:
-    import pyenergyplus
+    from pyenergyplus.api import EnergyPlusAPI
 except ImportError:
     ep_path = "C:\\EnergyPlusV26-1-0"
     if ep_path not in sys.path:
         sys.path.append(ep_path)
-
-from pyenergyplus.api import EnergyPlusAPI
+    from pyenergyplus.api import EnergyPlusAPI
 
 from packages.sim_adapter.actuator import ActuatorAdapter
 from packages.sim_adapter.contracts import ActionAcknowledgement, ActionCommandV1, TelemetryV1

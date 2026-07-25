@@ -1,10 +1,11 @@
 """Converts simulation adapter telemetry into standard building state."""
 
 from pathlib import Path
+from typing import cast
 
 import yaml
 
-from packages.domain.models import BuildingStateV1, ZoneStateV1
+from packages.domain.models import BuildingStateV1, QualityFlag, ZoneStateV1
 from packages.sim_adapter.contracts import TelemetryV1
 from packages.state_engine.quality import QualityFlagger
 
@@ -40,7 +41,7 @@ class StateBuilder:
                 zone_id=mapped_id,
                 temperature=temp,
                 occupancy=is_occupied,
-                quality_flag=flag,
+                quality_flag=cast(QualityFlag, flag),
                 comfort_debt=0.0,
             )
             zones.append(zone_state)

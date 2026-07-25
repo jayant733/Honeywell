@@ -19,9 +19,6 @@ class TelemetryParser:
 
         # Read time
         year = self.api.exchange.year(self.state)
-        month = self.api.exchange.month(self.state)
-        day = self.api.exchange.day_of_month(self.state)
-        hour = self.api.exchange.hour(self.state)
 
         # EnergyPlus hours can be 24, we need to handle that for datetime
         # (Though usually we use current_time which gives elapsed hours)
