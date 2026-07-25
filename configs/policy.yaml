@@ -1,5 +1,12 @@
-policy:
-  version: 0.1.0
-  mode: shadow
-  safe_default_action: HOLD
-  operator_override_requires_audit_reason: true
+# Baseline deterministic policy settings
+
+baseline_setpoints:
+  occupied:
+    heating: 21.0
+    cooling: 24.0
+  unoccupied:
+    heating: 16.0
+    cooling: 28.0
+
+# Minimum change threshold to avoid micro-actuations (Celsius)
+deadband: 0.5

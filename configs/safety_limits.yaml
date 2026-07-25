@@ -1,0 +1,9 @@
+# Absolute Safety Bounds
+# The AI / operators can never violate these rules.
+
+temperature_limits:
+  min_cooling_setpoint: 20.0
+  max_heating_setpoint: 24.0
+
+# Rate limits (Celsius per hour)
+max_change_per_hour: 2.0
