@@ -1,20 +1,20 @@
 {
   "manifest_version": 1,
-  "status": "pending-assets",
+  "status": "ready",
   "building": {
     "path": "models/energyplus/building.epJSON",
-    "sha256": null,
-    "source": null,
-    "energyplus_version": null
+    "sha256": "d0885f70b963fe01ec2028b3565b69bc212553a29620fe1222a4c543455eb3c9",
+    "source": "Derived from EnergyPlus 26.1.0 bundled Medium Office example; versioned output variables and weather run period enabled",
+    "energyplus_version": "26.1.0-6f2e40d102"
   },
   "weather": {
     "path": "models/energyplus/weather.epw",
-    "sha256": null,
-    "source": null
+    "sha256": "c7d4efcf93ba316a1d874352e743df5cf137ba5c0e3459eb2dc4b5442d5b7f5c",
+    "source": "EnergyPlus 26.1.0 bundled WeatherData/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"
   },
   "run": {
     "scenario_id": "baseline-hot-day",
-    "start_date": "TBD",
+    "start_date": "annual reference run",
     "duration_hours": 72,
     "timestep_minutes": 15
   }

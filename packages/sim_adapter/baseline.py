@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -58,3 +59,15 @@ def validate_output_columns(columns: set[str], required_series: set[str]) -> set
     """Return missing normalized series so callers can produce actionable diagnostics."""
 
     return required_series.difference(columns)
+
+
+def validate_sql_output_contract(sql_path: Path, required_series: set[str]) -> set[str]:
+    """Return EnergyPlus report variables missing from the completed SQL output."""
+
+    if not sql_path.is_file():
+        raise BaselinePrerequisiteError(f"EnergyPlus SQL output does not exist: {sql_path}")
+
+    with sqlite3.connect(sql_path) as connection:
+        rows = connection.execute("SELECT DISTINCT Name FROM ReportDataDictionary").fetchall()
+    available_series = {str(row[0]) for row in rows}
+    return required_series.difference(available_series)

@@ -17,6 +17,11 @@ if ([string]::IsNullOrWhiteSpace($EnergyPlusExecutable)) {
     $EnergyPlusExecutable = (Get-Command energyplus -ErrorAction SilentlyContinue).Source
 }
 if ([string]::IsNullOrWhiteSpace($EnergyPlusExecutable)) {
+    $bundledExecutable = Get-ChildItem "C:\EnergyPlusV*\energyplus.exe" -ErrorAction SilentlyContinue |
+        Select-Object -First 1 -ExpandProperty FullName
+    $EnergyPlusExecutable = $bundledExecutable
+}
+if ([string]::IsNullOrWhiteSpace($EnergyPlusExecutable)) {
     throw "EnergyPlus was not found. Set ENERGYPLUS_PATH to the executable or add it to PATH."
 }
 
@@ -28,6 +33,11 @@ New-Item -ItemType Directory -Force $OutputDirectory | Out-Null
 
 if ($LASTEXITCODE -ne 0) {
     throw "EnergyPlus baseline run failed with exit code $LASTEXITCODE. Inspect $OutputDirectory."
+}
+
+& .\.venv\Scripts\python.exe -c "from pathlib import Path; from scripts.validate_baseline import validate_completed_run; validate_completed_run(Path(r'$OutputDirectory/eplusout.sql'))"
+if ($LASTEXITCODE -ne 0) {
+    throw "Baseline output contract validation failed. Inspect $OutputDirectory."
 }
 
 Write-Host "Baseline simulation completed. Output directory: $OutputDirectory"
