@@ -1,0 +1,15 @@
+version: 1
+required_series:
+  - site_outdoor_air_drybulb_temperature_c
+  - facility_total_hvac_electricity_j
+  - zone_air_temperature_c
+  - zone_thermostat_heating_setpoint_c
+  - zone_thermostat_cooling_setpoint_c
+  - zone_people_occupant_count
+  - zone_thermal_comfort_fanger_model_ppd_percent
+  - zone_heating_setpoint_not_met_time_hr
+  - zone_cooling_setpoint_not_met_time_hr
+metadata:
+  timestep_minutes: 15
+  timezone: local_simulation_time
+  energy_unit: J
