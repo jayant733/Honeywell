@@ -1,0 +1,10 @@
+# Local LLM Configuration
+# Assuming a local Qwen 3 14B instance running with an OpenAI-compatible API
+# such as vLLM or Ollama.
+
+base_url: "http://localhost:8000/v1"
+api_key: "dummy_key_for_local"
+model_name: "qwen-14b"
+timeout_seconds: 30.0
+max_retries: 2
+temperature: 0.1 # Low temperature for more deterministic/safe control
