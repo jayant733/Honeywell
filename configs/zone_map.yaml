@@ -1,0 +1,11 @@
+# Zone Map Configuration
+# Maps raw EnergyPlus/sensor zone handles or names to a normalized logical zone name.
+
+mappings:
+  CORE_BOTTOM: core_bottom
+  PERIMETER_BOT_ZN_1: perimeter_bot_zn_1
+  # Extensible based on building.epJSON layout
+
+controlled_zones:
+  - CORE_BOTTOM
+  - PERIMETER_BOT_ZN_1
