@@ -1,0 +1,35 @@
+{
+  "building_id": "bldg_1",
+  "floors": [
+    {
+      "level": 1,
+      "zones": [
+        {
+          "id": "zone_1",
+          "name": "Lobby",
+          "coordinates": { "x": 0, "y": 0, "width": 10, "length": 10 }
+        },
+        {
+          "id": "zone_2",
+          "name": "Open Office West",
+          "coordinates": { "x": -10, "y": 0, "width": 10, "length": 20 }
+        },
+        {
+          "id": "zone_3",
+          "name": "Conference Room",
+          "coordinates": { "x": 10, "y": 0, "width": 10, "length": 10 }
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "zones": [
+        {
+          "id": "zone_4",
+          "name": "Executive Suite",
+          "coordinates": { "x": 0, "y": 0, "width": 10, "length": 10 }
+        }
+      ]
+    }
+  ]
+}
