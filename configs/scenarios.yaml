@@ -1,0 +1,14 @@
+# Evaluation Scenarios
+
+scenarios:
+  - id: "summer_heatwave_2024"
+    name: "Summer Heatwave (High Carbon)"
+    duration_hours: 24
+    description: "Evaluates AI performance during extreme heat with high grid carbon intensity."
+    epw_file: "USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"
+  
+  - id: "shoulder_season_fluctuation"
+    name: "Shoulder Season"
+    duration_hours: 24
+    description: "Evaluates AI performance during mild weather with fluctuating occupancy."
+    epw_file: "USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw"
