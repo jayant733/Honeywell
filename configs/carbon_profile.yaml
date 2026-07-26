@@ -1,0 +1,8 @@
+# Simulated daily carbon intensity (gCO2/kWh)
+# High during peak load (14:00 - 18:00), low overnight
+00:00: 200
+04:00: 180
+08:00: 220
+12:00: 350
+16:00: 450
+20:00: 280
