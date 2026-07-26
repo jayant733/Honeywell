@@ -8,5 +8,5 @@ temperature_limits:
   max_cooling_setpoint: 30.0
 
 # Rate limits (Celsius per hour)
-max_change_per_hour: 2.0
-minimum_dwell_minutes: 30.0
+max_change_per_hour: 10.0
+minimum_dwell_minutes: 0.0

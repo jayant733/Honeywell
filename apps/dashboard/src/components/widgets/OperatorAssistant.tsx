@@ -10,7 +10,7 @@ export default function OperatorAssistant() {
   ]);
   const [input, setInput] = useState("");
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
     
     // Add user message
@@ -18,19 +18,32 @@ export default function OperatorAssistant() {
     setMessages(newMessages);
     setInput("");
     
-    // Simulate backend response
-    setTimeout(() => {
+    try {
+      const res = await fetch("http://localhost:8000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input })
+      });
+      const data = await res.json();
+      
       let reply = "";
-      if (input.toLowerCase().includes("cool")) {
-        reply = "I've proposed a cooling setpoint of 20°C. The Safety Kernel has verified this request and it is now active.";
-      } else if (input.toLowerCase().includes("heat")) {
-        reply = "I've proposed a heating setpoint of 23°C. The Safety Kernel has verified this request.";
+      if (data.intent?.action_type === "HVAC_SETPOINT_UPDATE") {
+        const p = data.intent.proposal;
+        reply = `I proposed a ${p.hvac_mode} setpoint of ${p.setpoint}°C for ${p.zone_id}.`;
+        
+        if (data.intent.kernel_clipped) {
+           reply += ` However, the Safety Kernel rejected it and CLIPPED the setpoint to ${data.intent.kernel_clipped}°C for safety reasons.`;
+        } else {
+           reply += ` The Safety Kernel has verified this request.`;
+        }
       } else {
-        reply = "I can help you adjust temperatures or query building status. Try 'cool down the conference room'.";
+        reply = "I'm not sure how to action that. Try 'cool down the conference room'.";
       }
       
       setMessages([...newMessages, { role: "assistant", content: reply }]);
-    }, 1000);
+    } catch (e) {
+      setMessages([...newMessages, { role: "assistant", content: "Error connecting to Sentinel backend." }]);
+    }
   };
 
   if (!isOpen) {

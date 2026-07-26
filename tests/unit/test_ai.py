@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from packages.ai.qwen_client import QwenClient
 from packages.ai.tool_router import ToolRouter
 from packages.ai.tools import ToolRegistry
 
@@ -36,22 +35,3 @@ def test_tool_router():
     assert results[0]["role"] == "tool"
     assert results[0]["name"] == "get_building_state"
     assert "temp_1 is OK" in results[0]["content"]
-
-
-@patch("packages.ai.qwen_client.OpenAI")
-def test_qwen_client_fallback(mock_openai):
-    # Mocking timeout
-
-    # Setup mock to raise APITimeoutError
-    mock_client_instance = MagicMock()
-    mock_openai.return_value = mock_client_instance
-    mock_client_instance.beta.chat.completions.parse.side_effect = Exception("Connection Timeout")
-
-    client = QwenClient(Path("dummy.yaml"))
-
-    # Should not raise, should return fallback decision
-    decision = client.complete_structured("system", "user")
-
-    assert decision.actuator_id == "NONE"
-    assert "Fallback" in decision.rationale
-    assert decision.confidence_score == 0.0

@@ -3,7 +3,7 @@
 import logging
 import uuid
 
-from packages.ai.qwen_client import QwenClient
+from packages.ai.ollama_client import OllamaClient
 from packages.control.decision_engine import DecisionEngine
 from packages.control.rollback import RollbackManager
 from packages.control.safety_kernel import SafetyKernel
@@ -21,7 +21,7 @@ class ControlLoop:
         self,
         sim: SimulationAdapter,
         builder: StateBuilder,
-        ai_client: QwenClient,
+        ai_client: OllamaClient,
         engine: DecisionEngine,
         safety: SafetyKernel,
         rollback: RollbackManager,

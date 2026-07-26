@@ -20,7 +20,6 @@ export default function RootLayout({
           </div>
           <nav className="flex gap-6 text-sm font-medium">
             <a href="/" className="hover:text-[var(--color-primary)] text-[var(--color-secondary)]">Dashboard</a>
-            <a href="/twin" className="hover:text-[var(--color-primary)] text-[var(--color-secondary)]">3D Twin</a>
             <a href="/ai" className="hover:text-[var(--color-primary)] text-[var(--color-secondary)]">AI Control</a>
             <a href="/analytics" className="hover:text-[var(--color-primary)] text-[var(--color-secondary)]">Analytics</a>
           </nav>

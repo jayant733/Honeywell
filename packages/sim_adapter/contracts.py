@@ -23,6 +23,7 @@ class TelemetryV1:
     zone_temperatures: dict[str, float]
     outdoor_temperature: float
     hvac_power: float
+    zone_ppd: dict[str, float] = field(default_factory=dict)
     # Other metrics could be added here later
 
 

@@ -15,3 +15,19 @@ Sentinel Twin is a next-generation autonomous Building Management System (BMS) p
 - [Setup Guide](docs/setup.md)
 - [Evaluation Protocol](docs/evaluation-protocol.md)
 - [Hackathon Pitch](docs/presentation/outline.md)
+
+## Hackathon Demo Execution
+To run the fully compliant autonomous pipeline for the judges:
+
+1. **Start the Frontend Dashboard:**
+   ```bash
+   cd apps/dashboard
+   npm run dev
+   ```
+2. **Start the Live Orchestrator:**
+   This script will automatically start the official MCP Server, the PyEnergyPlus Co-Simulation runtime, and the FastAPI backend.
+   ```bash
+   python scripts/run_live.py
+   ```
+3. **Verify:**
+   Open `http://localhost:3000` to watch the Live EnergyPlus runtime send actual state to the MCP/FastAPI backend, get optimized by the Qwen LLM, and correctly write-back setpoints via the Actuator Gateway.

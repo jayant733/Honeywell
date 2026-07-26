@@ -37,12 +37,17 @@ class StateBuilder:
             if dt.weekday() < 5 and 8 <= dt.hour < 18:
                 is_occupied = True
 
+            # PPD mapping (requires telemetry payload to include it, or we look it up)
+            # We will assume TelemetryV1 includes zone_ppd
+            zone_ppd = getattr(telemetry, 'zone_ppd', {}).get(raw_zone_id, float("nan"))
+            
             zone_state = ZoneStateV1(
                 zone_id=mapped_id,
                 temperature=temp,
                 occupancy=is_occupied,
                 quality_flag=cast(QualityFlag, flag),
                 comfort_debt=0.0,
+                ppd_percent=zone_ppd
             )
             zones.append(zone_state)
 

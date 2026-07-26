@@ -16,6 +16,7 @@ class ZoneStateV1(BaseModel):
     occupancy: bool = False
     quality_flag: QualityFlag = "VALID"
     comfort_debt: float = 0.0
+    ppd_percent: float = Field(default=float("nan"))
 
 
 class BuildingStateV1(BaseModel):

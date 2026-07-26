@@ -7163,6 +7163,11 @@
             "key_value": "*",
             "reporting_frequency": "Hourly",
             "variable_name": "Zone Cooling Setpoint Not Met Time"
+        },
+        "Output:Variable 30": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Zone Thermal Comfort Fanger Model PMV"
         }
     },
     "Output:VariableDictionary": {
@@ -10703,6 +10708,13 @@
             "velocity_squared_term_coefficient": 0.0,
             "velocity_term_coefficient": 0.0,
             "zone_or_zonelist_or_space_or_spacelist_name": "TopFloor_Plenum"
+        }
+    },
+    "Output:EnergyManagementSystem": {
+        "Output:EnergyManagementSystem 1": {
+            "actuator_availability_dictionary_reporting": "Verbose",
+            "ems_runtime_language_debug_output_level": "Verbose",
+            "internal_variable_availability_dictionary_reporting": "Verbose"
         }
     }
 }
