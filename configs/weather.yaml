@@ -1,0 +1,14 @@
+# Simulated weather forecast for hackathon scenario
+# Summer day with an afternoon heatwave
+08:00:
+  temp: 24.5
+  humidity: 50
+12:00:
+  temp: 32.0
+  humidity: 45
+16:00:
+  temp: 36.5
+  humidity: 40
+20:00:
+  temp: 28.0
+  humidity: 55
